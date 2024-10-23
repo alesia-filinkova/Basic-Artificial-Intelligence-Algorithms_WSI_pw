@@ -9,60 +9,57 @@ def f(x, A, B):
 
 
 def g(x, y, C):
-    return (C * x * y) / (np.exp(x**2) + y**2)
+    return (C * x * y) / (sp.exp(x**2) + y**2)
 
 
 def function_f(A, B):
-    UPPER_BOUND = 4 * np.pi
+    upper_bound = 4 * np.pi
     learning_rate_f = 0.001
     max_steps_f = 10000
-    start_point_f = np.random.uniform(-UPPER_BOUND, UPPER_BOUND)
+    start_point_f = np.random.uniform(-upper_bound, upper_bound)
     extremum_f, history_f = grad_descent(f, gradient,
                                          [start_point_f], learning_rate_f,
-                                         max_steps_f, UPPER_BOUND, A, B)
+                                         max_steps_f, upper_bound, A, B)
     print(extremum_f, history_f[0])
 
 
 def function_g(C):
-    UPPER_BOUND = 2
+    upper_bound = 2
     learning_rate_g = 0.001
-    max_steps_g = 10000
-    start_point_g = np.random.uniform(-UPPER_BOUND, UPPER_BOUND, size=2)
+    max_steps_g = 100
+    start_point_g = np.random.uniform(-upper_bound, upper_bound, size=2)
     extremum_g, history_g = grad_descent(g, gradient,
                                          [start_point_g],
                                          learning_rate_g, max_steps_g,
-                                         UPPER_BOUND, C)
+                                         upper_bound, C)
     print(extremum_g, history_g[0])
 
 
 def gradient(func, symbols, *args):
-    if type(args[1]) is int:
+    if len(args) == 3:
         grad_fct = sp.diff(f(symbols[0], args[1], args[2]), symbols[0])
         grad = grad_fct.subs(symbols[0], args[0])
-        # print(grad)
         return float(grad)
-    elif type(args[1]) is not int:
-        grad_fct_x, grad_fct_y = sp.diff(g(symbols[0], args[-1]), symbols[0])
-        grad_x, grad_y = grad_fct.subs(symbols[0], args[0])
-        return [grad_x, grad_y]
     else:
-        raise ValueError("The numbers of values can be only 1 or 2")
+        grad_fct_x = sp.diff(g(symbols[0], args[0][1], args[-1]), symbols[0])
+        grad_fct_y = sp.diff(g(symbols[1], args[0][0], args[-1]), symbols[1])
+        grad_x = float(grad_fct_x.subs(symbols[0], args[0][0]))
+        grad_y = float(grad_fct_y.subs(symbols[1], args[0][1]))
+        return np.array([grad_x, grad_y])
 
 
 def grad_descent(func, grad_func, start_point, learning_rate, max_steps,
-                 UPPER_BOUND, *args):
+                 upper_bound, *args):
     x_symb, y_symb = sp.symbols('x y')
     symbols = [x_symb, y_symb]
     point = np.array(start_point)
     history = [point.copy()]
     count_it = 0
-    print(*point)
     grad = grad_func(func, symbols, *point, *args)
     while count_it < max_steps and np.linalg.norm(grad) > 1e-6:
-        # print(*point)
         grad = grad_func(func, symbols, *point, *args)
         point = point - learning_rate * grad
-        point = np.clip(point, -UPPER_BOUND, UPPER_BOUND)
+        point = np.clip(point, -upper_bound, upper_bound)
         history.append(point.copy())
         count_it += 1
 

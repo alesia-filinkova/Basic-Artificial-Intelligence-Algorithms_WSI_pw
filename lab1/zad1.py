@@ -21,6 +21,34 @@ def function_f(A, B):
                                          [start_point_f], learning_rate_f,
                                          max_steps_f, upper_bound, A, B)
     print(extremum_f, history_f[0])
+    step = sp.Float(0.1)
+    x_vals = []
+    current_x = -upper_bound
+    while current_x <= upper_bound:
+        x_vals.append(current_x)
+        current_x += step
+
+    y_vals = [f(x, A, B) for x in x_vals]
+
+    plt.figure(figsize=(10, 6))
+    plt.plot([float(x) for x in x_vals], [float(y) for y in y_vals], label=f'f(x) = {A}x + {B}sin(x)')
+    plt.scatter(history_f[0], f(sp.Float(history_f[0]), A, B), color='red', label="Start Point")
+    plt.scatter(extremum_f, f(sp.Float(extremum_f), A, B), color='green', label="Extremum")
+
+    for i in range(0, len(history_f) - 1, 1000):
+        start_x = float(history_f[i])
+        end_x = float(history_f[i + 1])
+        start_y = float(f(start_x, A, B))
+        end_y = float(f(end_x, A, B))
+
+        plt.arrow(start_x, start_y,
+                  end_x - start_x,
+                  end_y - start_y,
+                  head_width=0.5, head_length=1, fc='k', ec='k')
+
+    plt.title("Gradient Descent on f(x)")
+    plt.legend()
+    plt.show()
 
 
 def function_g(C):
@@ -33,6 +61,26 @@ def function_g(C):
                                          learning_rate_g, max_steps_g,
                                          upper_bound, C)
     print(extremum_g, history_g[0])
+    
+    # x_vals = np.linspace(-upper_bound, upper_bound, 100)
+    # y_vals = np.linspace(-upper_bound, upper_bound, 100)
+    # X, Y = np.meshgrid(x_vals, y_vals)
+    # Z = g(X, Y, C)
+    
+    # plt.figure(figsize=(10, 6))
+    # plt.contour(X, Y, Z, levels=50, cmap='viridis')
+    # plt.scatter(history_g[0][0], history_g[0][1], color='red', label="Start Point")
+    # plt.scatter(extremum_g[0], extremum_g[1], color='green', label="Extremum")
+    
+    # # Добавление стрелок для направления градиента каждые 100 шагов
+    # for i in range(0, len(history_g), 100):
+    #     dx = history_g[i+1][0] - history_g[i][0]
+    #     dy = history_g[i+1][1] - history_g[i][1]
+    #     plt.arrow(history_g[i][0], history_g[i][1], dx, dy, head_width=0.05, head_length=0.05)
+
+    # plt.title("Gradient Descent on g(x, y)")
+    # plt.legend()
+    # plt.show()
 
 
 def gradient(func, symbols, *args):

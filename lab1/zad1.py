@@ -26,34 +26,15 @@ def function_f(A, B):
 
 def function_g(C):
     upper_bound = 2
-    learning_rate_g = 0.001
-    max_steps_g = 100
+    learning_rate_g = 0.01
+    max_steps_g = 1000
     start_point_g = np.random.uniform(-upper_bound, upper_bound, size=2)
     extremum_g, history_g = grad_descent(g, gradient,
                                          [start_point_g],
                                          learning_rate_g, max_steps_g,
                                          upper_bound, C)
     print(extremum_g, history_g[0])
-    
-    # x_vals = np.linspace(-upper_bound, upper_bound, 100)
-    # y_vals = np.linspace(-upper_bound, upper_bound, 100)
-    # X, Y = np.meshgrid(x_vals, y_vals)
-    # Z = g(X, Y, C)
-    
-    # plt.figure(figsize=(10, 6))
-    # plt.contour(X, Y, Z, levels=50, cmap='viridis')
-    # plt.scatter(history_g[0][0], history_g[0][1], color='red', label="Start Point")
-    # plt.scatter(extremum_g[0], extremum_g[1], color='green', label="Extremum")
-    
-    # # Добавление стрелок для направления градиента каждые 100 шагов
-    # for i in range(0, len(history_g), 100):
-    #     dx = history_g[i+1][0] - history_g[i][0]
-    #     dy = history_g[i+1][1] - history_g[i][1]
-    #     plt.arrow(history_g[i][0], history_g[i][1], dx, dy, head_width=0.05, head_length=0.05)
-
-    # plt.title("Gradient Descent on g(x, y)")
-    # plt.legend()
-    # plt.show()
+    graphics.graphic_g(upper_bound, g, extremum_g, history_g, C)
 
 
 def gradient(func, symbols, *args):

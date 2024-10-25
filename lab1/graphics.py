@@ -47,18 +47,18 @@ def graphic_g(upper_bound, func, extremum, history, C):
             Z[i, j] = float(func(float(X[i, j]), float(Y[i, j]), C))
 
     plt.figure(figsize=(10, 6))
-    plt.contourf(X, Y, Z, levels=100, cmap='viridis')
+    plt.contourf(X, Y, Z, levels=50, cmap='viridis')
     plt.colorbar()
 
-    for i in range(0, len(history) - 1, 25):
+    for i in range(0, len(history) - 1, 2):
         plt.arrow(history[i][0][0], history[i][0][1],
                   history[i + 1][0][0] - history[i][0][0],
                   history[i + 1][0][1] - history[i][0][1],
                   head_width=0.05, head_length=0.05, fc='k', ec='k')
-        print(history[i][0][0])
-        print(history[i][0][1])
-        print(history[i+1][0][0])
-        print(history[i+1][0][1])
+        # print(history[i][0][0])
+        # print(history[i][0][1])
+        # print(history[i+1][0][0])
+        # print(history[i+1][0][1])
 
     plt.scatter(history[0][0][0], history[0][0][1], color='yellow', label='Start Point')
     plt.scatter(extremum[0][0], extremum[0][1], color='red', label='Extremum')

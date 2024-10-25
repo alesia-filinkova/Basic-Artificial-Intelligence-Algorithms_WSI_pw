@@ -9,13 +9,11 @@ def f(x, A, B):
 
 
 def g(x, y, C):
-    return (C * x * y) / (sp.exp(x**2) + y**2)
+    return (C * x * y) / (sp.exp(x**2 + y**2))
 
 
-def function_f(A, B):
+def function_f(A, B, learning_rate_f, max_steps_f):
     upper_bound = 4 * np.pi
-    learning_rate_f = 0.001
-    max_steps_f = 10000
     start_point_f = np.random.uniform(-upper_bound, upper_bound)
     extremum_f, history_f = grad_descent(f, gradient,
                                          [start_point_f], learning_rate_f,
@@ -24,10 +22,8 @@ def function_f(A, B):
     graphics.graphic_f(upper_bound, f, extremum_f, history_f, A, B)
 
 
-def function_g(C):
+def function_g(C, learning_rate_g, max_steps_g):
     upper_bound = 2
-    learning_rate_g = 0.01
-    max_steps_g = 1000
     start_point_g = np.random.uniform(-upper_bound, upper_bound, size=2)
     extremum_g, history_g = grad_descent(g, gradient,
                                          [start_point_g],
@@ -69,14 +65,14 @@ def grad_descent(func, grad_func, start_point, learning_rate, max_steps,
 
 
 def main():
-    if len(sys.argv) != 2:
-        print("Usage: python3 zad1.py index")
+    if len(sys.argv) != 6:
+        print("Usage: python3 zad1.py index, learning_rate_f, max_steps_f, learning_rate_g, max_steps_g")
         sys.exit(1)
 
     index = sys.argv[1]
     A, B, C = index[-3:][::-1]
-    function_f(int(A), int(B))
-    function_g(int(C))
+    function_f(int(A), int(B), float(sys.argv[2]), int(sys.argv[3]))
+    function_g(int(C), float(sys.argv[4]), int(sys.argv[5]))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,68 @@
+Sprawozdanie z Ćwiczenia nr 1
+
+1. Treść ćwiczenia
+W ćwiczeniu zaproponowano implementację algorytmu gradientu prostego w celu znalezienia
+ekstremów dwóch funkcji:
+
+1. $f(x) = Ax + Bsin(x)$ 
+    
+    $x \in{(-4\pi, 4\pi)}$
+
+ 2. $g(x, y) = \frac{Cxy}{e^{x^2 + y^2}}$
+    
+    $x \in{(-2, 2)}$
+    
+    $y \in{(-2, 2)}$
+
+Gdzie A, B, C zostały ustalone na podstawie ostatnich cyfr numeru indeksu.
+
+Zadanie polegało na:
+
+ - Implementacji algorytmu gradientu prostego,
+ - Wyznaczeniu ekstremów funkcji,
+ - Przeanalizowaniu wpływu parametrów takich jak długość kroku, limit liczby iteracji i
+  wybór punktu startowego na proces optymalizacji.
+
+
+4. Instrukcja do odtworzenia wyników
+Przygotowanie środowiska i Uruchomienie:
+Skrypt można uruchomić przez terminal za pomocą polecenia:
+
+    ```shell
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    python3 zad1.py <numer_indeksu> <learning_rate_f> <max_steps_f> <learning_rate_g> <max_steps_g>
+    ```
+
+gdzie <numer_indeksu> jest numerem używanym do ustalenia parametrów A, B i C;
+<learning_rate_f> i <learning_rate_g> - długość kroku uczącego
+<max_steps_f> i <max_steps_g> - limit maksymalnej liczby kroków algorytmu
+
+5. Wyniki
+
+Wyniki przedstawione są w postaci wykresów dla obu funkcji. Diagramy obrazują: 
+ - funkcje
+ - punkt startowy
+ - znalieziony ekstremum
+ - ścieżkę gradientowe od punktu startowego do końcowego za pomocą strzałek (funkcja g).
+
+Wyniki:
+Przeprowadzono eksperymenty dotyczące wpływu zmiany parametrów:
+Długość kroku uczenia: zmiana wartości kroku z 0,001 na 0,01, co zapewnia szybszą i dokładniejszą zbieżność.
+Maksymalny limit kroków: limit kroków został ustawiony na od 100 do 1000 dla g(x,y) i
+ od 100 do 10000 dla f(x).
+Punkt startowy: Początkowy punkt został wybrany losowo w zakresie wartości funkcji.
+
+6. Wnioski
+
+Eksperyment potwierdził, że:
+
+ - Długość kroku wpływa na czas zbieżności: im mniejszy krok, tym dokładniejsze wyniki, 
+ale kosztem większej liczby iteracji.
+
+ - Punkt startowy ma kluczowe znaczenie dla funkcji o kilka zmiennych, takich jak g(x,y), 
+co może prowadzić do zbieżności do różnych lokalnych ekstremów.
+
+ - Kształt funkcji: funkcja f(x) umożliwia łatwiejsze oszacowanie ekstremum, podczas gdy funkcja g(x,y) 
+wykazuje większą zmienność wartości gradientu w zależności od położenia w przestrzeni.

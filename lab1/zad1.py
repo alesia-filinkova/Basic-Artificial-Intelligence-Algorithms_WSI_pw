@@ -9,7 +9,7 @@ def f(x, A, B):
 
 
 def g(x, y, C):
-    return (C * x * y) / (sp.exp(x**2) + y**2)
+    return (C * x * y) / (sp.exp(x**2 + y**2))
 
 
 def function_f(A, B, learning_rate_f, max_steps_f):

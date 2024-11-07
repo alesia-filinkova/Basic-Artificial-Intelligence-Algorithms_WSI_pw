@@ -3,7 +3,7 @@ import pathlib
 
 import numpy as np
 import pandas as pd
-from solution_utils import generate_solution
+from solution_utils import generate_solution, decode_solution, evaluate_solution
 
 MINI_CITIES_NUM = 5
 
@@ -42,7 +42,11 @@ def main():
         np.random.seed(args.seed)
 
     data = load_data(args)
+    # print(data)
     print(generate_solution(data))
+    print(decode_solution(data, generate_solution(data)))
+    distances_random = evaluate_solution(data, generate_solution(data))
+    print(distances_random)
 
 
 if __name__ == "__main__":

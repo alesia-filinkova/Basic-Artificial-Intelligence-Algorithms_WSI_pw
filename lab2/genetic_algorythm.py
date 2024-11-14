@@ -4,13 +4,19 @@ from solution_utils import evaluate_solution, validate_solution
 
 class EvolutionAlgorithm:
     def __init__(
-        self, cities_matrix, population_size=350, generations=100, mutation_rate=0.01, crossover_rate=0.9
+        self,
+        cities_matrix,
+        population_size=50,
+        generations=200,
+        mutation_rate=0.01,
+        crossover_rate=0.9,
     ):
         self.cities_matrix = cities_matrix
         self.population_size = population_size
         self.generations = generations
         self.mutation_rate = mutation_rate
         self.crossover_rate = crossover_rate
+        self.best_distances_per_generation = []
         self.population = self.create_population()
 
     def create_population(self):
@@ -34,12 +40,16 @@ class EvolutionAlgorithm:
     def select_parents(self, fitness_scores):
         total_fitness = sum(fitness_scores)
         probabilities = [score / total_fitness for score in fitness_scores]
-        parents_indices = np.random.choice(range(self.population_size), size=self.population_size, p=probabilities)
+        parents_indices = np.random.choice(
+            range(self.population_size), size=self.population_size, p=probabilities
+        )
         return [self.population[i] for i in parents_indices]
 
     def crossover(self, parent1, parent2):
         if np.random.rand() < self.crossover_rate:
-            start, end = sorted(np.random.choice(range(1, len(parent1) - 1), size=2, replace=False))
+            start, end = sorted(
+                np.random.choice(range(1, len(parent1) - 1), size=2, replace=False)
+            )
             child = parent1[:start] + [None] * (end - start) + parent1[end:]
             pointer = 0
             for gene in parent2:
@@ -70,7 +80,11 @@ class EvolutionAlgorithm:
                 self.mutate(child2)
                 next_generation.extend([child1, child2])
             self.population = next_generation
-        evaluations = [evaluate_solution(self.cities_matrix, i) for i in self.population]
+
+            evaluations = [
+                evaluate_solution(self.cities_matrix, ind) for ind in self.population
+            ]
+
         best_index = evaluations.index(min(evaluations))
         best_solution = self.population[best_index]
         validate_solution(self.cities_matrix, best_solution)

@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from solution_utils import generate_solution, decode_solution, evaluate_solution
 from genetic_algorythm import EvolutionAlgorithm
+from graphic import graphic
 
 MINI_CITIES_NUM = 5
 
@@ -65,6 +66,7 @@ def main():
     total_distance = evaluate_solution(data, best_route)
     print("Best route:", best_route_cities)
     print("Best route length:", total_distance)
+    graphic(best_route_cities, best_route)
 
 
 if __name__ == "__main__":

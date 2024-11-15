@@ -20,11 +20,10 @@ def get_coordinates(city_names):
     return coordinates
 
 
-def graphic(city_names, solution_path):
+def graphic(solution_path):
     """Visualises the algorithm solution on the map."""
-    ordered_city_names = [city_names[i] for i in solution_path]
-
-    coordinates = get_coordinates(ordered_city_names)
+    print(solution_path)
+    coordinates = get_coordinates(solution_path)
     coordinates = [
         (lat, lon) for lat, lon in coordinates if lat is not None and lon is not None
     ]

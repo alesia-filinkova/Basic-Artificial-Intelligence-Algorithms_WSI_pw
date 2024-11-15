@@ -55,8 +55,8 @@ def main():
         np.random.seed(args.seed)
 
     data = load_data(args)
-    print(generate_solution(data))
-    print(decode_solution(data, generate_solution(data)))
+    # print(generate_solution(data))
+    # print(decode_solution(data, generate_solution(data)))
     distances_r = evaluate_solution(data, generate_solution(data))
     print(distances_r)
     ea = EvolutionAlgorithm(data)
@@ -66,7 +66,7 @@ def main():
     total_distance = evaluate_solution(data, best_route)
     print("Best route:", best_route_cities)
     print("Best route length:", total_distance)
-    # graphic(best_route_cities)
+    graphic(best_route_cities)
 
 
 if __name__ == "__main__":

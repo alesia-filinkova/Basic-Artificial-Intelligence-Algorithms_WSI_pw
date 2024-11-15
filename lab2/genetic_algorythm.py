@@ -6,8 +6,8 @@ class EvolutionAlgorithm:
     def __init__(
         self,
         cities_matrix,
-        population_size=50,
-        generations=200,
+        population_size=100,
+        generations=100,
         mutation_rate=0.01,
         crossover_rate=0.9,
     ):

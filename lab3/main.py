@@ -32,5 +32,5 @@ if __name__ == "__main__":
         gui = GameGUI(game, player_x, player_o)
         gui.mainloop()
     else:
-        # TODO: lab3 - implement non-gui game simulation
+        # todo: lab3 - implement non-gui game simulation
         pass

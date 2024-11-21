@@ -1,9 +1,25 @@
+from player import HumanPlayer, RandomComputerPlayer, MinimaxComputerPlayer
+
+
 def print_board(board):
     symbols = {"x": "X", "o": "O", "": " "}
     for row in board:
         print(" | ".join(symbols[cell] for cell in row))
         print("-" * 9)
     print()
+
+
+def get_human_move():
+    while True:
+        try:
+            move = input("Enter your move as 'row,column' (e.g., 1,2): ").strip()
+            row, col = map(int, move.split(","))
+            if row in range(3) and col in range(3):
+                return (row, col)
+            else:
+                print("Invalid input! Row and column must be between 0 and 2.")
+        except ValueError:
+            print("Invalid format! Enter your move as 'row,col'.")
 
 
 def run_simulation(game, player_x, player_o):
@@ -15,7 +31,12 @@ def run_simulation(game, player_x, player_o):
         while game.get_winner() == "":
             print_board(game.board)
             current_player = player_x if game.player_x_turn else player_o
-            move = current_player.get_move(None)
+            if isinstance(current_player, HumanPlayer):
+                print("Your turn (Human Player).")
+                move = get_human_move()
+            else:
+                print("not human")
+                move = current_player.get_move(None)
             if game.is_free(move):
                 game.move(move)
             else:

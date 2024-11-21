@@ -7,6 +7,7 @@ import numpy as np
 from gui import GameGUI
 from game import TicTacToe
 from player import build_player
+from non_gui import run_simulation
 
 
 def parse_args():
@@ -33,4 +34,5 @@ if __name__ == "__main__":
         gui.mainloop()
     else:
         # todo: lab3 - implement non-gui game simulation
+        run_simulation(game, player_x, player_o)
         pass

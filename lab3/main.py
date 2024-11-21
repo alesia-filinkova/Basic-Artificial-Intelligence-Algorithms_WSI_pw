@@ -35,4 +35,3 @@ if __name__ == "__main__":
     else:
         # todo: lab3 - implement non-gui game simulation
         run_simulation(game, player_x, player_o)
-        pass

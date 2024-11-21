@@ -10,11 +10,13 @@ class TicTacToe:
         self.player_x_turn = True
         self.player_x_started = True
         self.winner = None  # winner is in ["x", "o", "t", None] t -> tie, None -> not finished yet
+        self.history = []
 
     def play_again(self):
         self.player_x_started = not self.player_x_started
         self.player_x_turn = self.player_x_started
         self.board = np.zeros((N_ROWS, N_ROWS), dtype=np.str_)
+        self.history = []
 
     def is_free(self, logical_position):
         return self.board[tuple(logical_position)] == ""
@@ -52,8 +54,20 @@ class TicTacToe:
         else:
             self.board[tuple(logical_position)] = new_symbol = "o"
 
+        self.history.append(logical_position)
         self.player_x_turn = not self.player_x_turn
         return new_symbol
 
     def available_moves(self):
         return np.argwhere((self.board == ""))
+
+    def undo_move(self, move):
+        move_tuple = tuple(move)
+        history_as_tuples = [tuple(m) for m in self.history]
+        if move_tuple in history_as_tuples:
+            index = history_as_tuples.index(move_tuple)
+            del self.history[index]
+            self.board[tuple(move)] = ""
+            self.player_x_turn = not self.player_x_turn
+        else:
+            print(f"Move {move_tuple} not found in history.")

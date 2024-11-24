@@ -1,9 +1,11 @@
 {
     "x": {
-        "type": "random"
+        "type": "minimax",
+        "depth": 9
     },
     "o": {
-        "type": "minimax"
+        "type": "minimax",
+        "depth": 9
     },
-    "gui": true
+    "gui": false
 }

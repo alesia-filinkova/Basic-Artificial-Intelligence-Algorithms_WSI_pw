@@ -5,7 +5,7 @@
     },
     "o": {
         "type": "minimax",
-        "depth": 9
+        "depth": 2
     },
     "gui": false
 }

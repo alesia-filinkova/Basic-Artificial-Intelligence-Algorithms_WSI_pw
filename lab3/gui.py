@@ -36,8 +36,18 @@ class GameGUI:
 
     def initialize_board(self):
         for i in range(2):
-            self.canvas.create_line((i + 1) * N_BOARD_PIXELS / 3, 0, (i + 1) * N_BOARD_PIXELS / 3, N_BOARD_PIXELS)
-            self.canvas.create_line(0, (i + 1) * N_BOARD_PIXELS / 3, N_BOARD_PIXELS, (i + 1) * N_BOARD_PIXELS / 3)
+            self.canvas.create_line(
+                (i + 1) * N_BOARD_PIXELS / 3,
+                0,
+                (i + 1) * N_BOARD_PIXELS / 3,
+                N_BOARD_PIXELS,
+            )
+            self.canvas.create_line(
+                0,
+                (i + 1) * N_BOARD_PIXELS / 3,
+                N_BOARD_PIXELS,
+                (i + 1) * N_BOARD_PIXELS / 3,
+            )
 
     def draw_naught(self, logical_position):
         grid_position = _logical_to_grid(logical_position)
@@ -71,7 +81,9 @@ class GameGUI:
 
     def click(self, grid_position):
         grid_position = np.array([grid_position.x, grid_position.y], dtype=np.int_)
-        logical_position = np.array(grid_position // (N_BOARD_PIXELS / N_ROWS), dtype=np.int_)
+        logical_position = np.array(
+            grid_position // (N_BOARD_PIXELS / N_ROWS), dtype=np.int_
+        )
         if self.reset_board:
             self.play_again()
             return
@@ -115,21 +127,39 @@ class GameGUI:
             color = "gray"
 
         self.canvas.delete("all")
-        self.canvas.create_text(N_BOARD_PIXELS / 2, N_BOARD_PIXELS / 3, font="cmr 40 bold", fill=color, text=text)
+        self.canvas.create_text(
+            N_BOARD_PIXELS / 2,
+            N_BOARD_PIXELS / 3,
+            font="cmr 40 bold",
+            fill=color,
+            text=text,
+        )
 
         score_text = "Scores \n"
         self.canvas.create_text(
-            N_BOARD_PIXELS / 2, 5 * N_BOARD_PIXELS / 8, font="cmr 30 bold", fill=GREEN_COLOR, text=score_text
+            N_BOARD_PIXELS / 2,
+            5 * N_BOARD_PIXELS / 8,
+            font="cmr 30 bold",
+            fill=GREEN_COLOR,
+            text=score_text,
         )
 
         score_text = "(X)  : " + str(self.player_x.score) + "\n"
         score_text += "(O)  : " + str(self.player_o.score) + "\n"
         score_text += "Tie  : " + str(self.ties)
         self.canvas.create_text(
-            N_BOARD_PIXELS / 2, 3 * N_BOARD_PIXELS / 4, font="cmr 20 bold", fill=GREEN_COLOR, text=score_text
+            N_BOARD_PIXELS / 2,
+            3 * N_BOARD_PIXELS / 4,
+            font="cmr 20 bold",
+            fill=GREEN_COLOR,
+            text=score_text,
         )
 
         score_text = "Click to play again \n"
         self.canvas.create_text(
-            N_BOARD_PIXELS / 2, 15 * N_BOARD_PIXELS / 16, font="cmr 10 bold", fill="gray", text=score_text
+            N_BOARD_PIXELS / 2,
+            15 * N_BOARD_PIXELS / 16,
+            font="cmr 10 bold",
+            fill="gray",
+            text=score_text,
         )

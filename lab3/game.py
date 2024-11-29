@@ -36,7 +36,10 @@ class TicTacToe:
         if len(diagonal_unique_elements) == 1 and diagonal_unique_elements.item() != "":
             return diagonal_unique_elements.item()
 
-        if len(antidiagonal_unique_elements) == 1 and antidiagonal_unique_elements.item() != "":
+        if (
+            len(antidiagonal_unique_elements) == 1
+            and antidiagonal_unique_elements.item() != ""
+        ):
             return antidiagonal_unique_elements.item()
 
         if np.all(self.board != ""):

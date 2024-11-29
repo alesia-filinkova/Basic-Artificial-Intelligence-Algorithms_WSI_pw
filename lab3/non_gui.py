@@ -25,17 +25,19 @@ def get_human_move():
 def run_simulation(game, player_x, player_o):
     print("Starting Tic Tac Toe simulation!")
     ties = 0
+    i = 0
+    # while i != 100:
     while True:
         print("\nNew Game!")
         game.play_again()
+        print(f"start playing {'x' if game.player_x_turn else 'o'}")
         while game.get_winner() == "":
             print_board(game.board)
             current_player = player_x if game.player_x_turn else player_o
             if isinstance(current_player, HumanPlayer):
-                print("Your turn (Human Player).")
+                print("Your turn")
                 move = get_human_move()
             else:
-                print("not human")
                 move = current_player.get_move(None)
             if game.is_free(move):
                 game.move(move)
@@ -55,6 +57,7 @@ def run_simulation(game, player_x, player_o):
             print("It's a tie!")
             ties += 1
 
+        # i += 1
         print(f"Scores: X - {player_x.score}, O - {player_o.score}, Ties - {ties}")
 
         replay = input("Do you want to play again? (y/n): ").strip().lower()

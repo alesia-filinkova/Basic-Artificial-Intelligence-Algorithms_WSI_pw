@@ -97,7 +97,7 @@ class MinimaxComputerPlayer(Player):
                 min_eval = min(min_eval, eval)
                 beta = min(beta, eval)
                 if beta <= alpha:
-                    break 
+                    break
             return min_eval
 
     def evaluate_board(self):
@@ -115,7 +115,7 @@ class MinimaxComputerPlayer(Player):
         opponent_count = np.count_nonzero(line == self.opponent_symbol)
 
         if my_count > 0 and opponent_count > 0:
-            return 0 
+            return 0
         elif my_count == 2:
             return 20**my_count
         elif my_count > 0 or opponent_count == 2:

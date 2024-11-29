@@ -12,7 +12,9 @@ from non_gui import run_simulation
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", type=pathlib.Path, required=True, help="Path to game config")
+    parser.add_argument(
+        "--config", type=pathlib.Path, required=True, help="Path to game config"
+    )
     parser.add_argument("--seed", type=int)
     return parser.parse_args()
 

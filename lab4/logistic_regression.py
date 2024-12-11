@@ -11,7 +11,13 @@ class LogisticRegression:
         return 1 / (1 + np.exp(-z))
 
     def gradient_descent(self, X, y):
-        pass
+        m = len(y)
+        for _ in range(self.iteration_count):
+            predictions = self.predict_proba(X)
+            measure_error = predictions - y
+            gradient = (1 / m) * np.dot(X.T, measure_error)
+            self.weights -= self.learning_rate * gradient
+        return self.weights
 
     def fit(self, X, y):
         features = len(X[1])

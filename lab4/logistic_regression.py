@@ -8,13 +8,16 @@ class LogisticRegression:
         self.weights = None
 
     def sigmoid(self, z):
-        pass
+        return 1 / (1 + np.exp(-z))
+
 
     def fit(self, X, y):
         pass
 
     def predict(self, X):
-        pass
+        probabilities = self.predict_proba(X)
+        return (probabilities >= 0.5).astype(int)
 
     def predict_proba(self, X):
-        pass
+        linear_model = np.dot(X, self.weights)
+        return self.sigmoid(linear_model)

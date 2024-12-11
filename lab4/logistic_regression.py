@@ -10,9 +10,13 @@ class LogisticRegression:
     def sigmoid(self, z):
         return 1 / (1 + np.exp(-z))
 
+    def gradient_descent(self, X, y):
+        pass
 
     def fit(self, X, y):
-        pass
+        features = len(X[1])
+        self.weights = np.zeros((features, 1))
+        self.gradient_descent(X, y)
 
     def predict(self, X):
         probabilities = self.predict_proba(X)

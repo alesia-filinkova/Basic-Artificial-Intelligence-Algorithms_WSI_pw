@@ -8,13 +8,13 @@ from sklearn.preprocessing import StandardScaler
 breast_cancer_wisconsin_diagnostic = fetch_ucirepo(id=17)
 
 X = breast_cancer_wisconsin_diagnostic.data.features
-# print(X.info())
+# print(X)
 y = breast_cancer_wisconsin_diagnostic.data.targets
 
 pd.set_option("future.no_silent_downcasting", True)
 y = y.replace({"M": 1, "B": 0}).astype(int)
 
-X = X.drop(["radius1", "radius2", "radius3"], axis=1)
+X = X.drop(["perimeter1", "perimeter2", "perimeter3", "radius1", "radius2", "radius3"], axis=1)
 
 X = X.to_numpy()
 y = y.to_numpy()

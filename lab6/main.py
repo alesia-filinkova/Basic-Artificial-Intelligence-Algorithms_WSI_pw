@@ -5,7 +5,7 @@ import pandas as pd
 import seaborn as sns
 
 class Q_training:
-    def __init__(self, learning_rate=0.1, discount_factor=0.99, epsilon=0.1, num_episodes=5000):
+    def __init__(self, learning_rate=0.1, discount_factor=0.99, epsilon=0.1, num_episodes=1000):
         self.env = gym.make("CliffWalking-v0")
 
         # Hiperparametres Q-learning
@@ -16,26 +16,29 @@ class Q_training:
     
     def train(self):
         self.q_table = np.zeros((self.env.observation_space.n, self.env.action_space.n))
+        self.visited_states = []
+        self.taken_actions = []
         for episode in range(self.num_episodes):
             state, _ = self.env.reset()
             done = False
             while not done:
+                self.visited_states.append(state)
                 if np.random.random() < self.epsilon:
                     action = self.env.action_space.sample()  # Eksploracja
                 else:
                     action = np.argmax(self.q_table[state])  # Eksploatacja
                 # print(self.env.step(action))
+                self.taken_actions.append(action)
                 next_state, reward, done, _, _ = self.env.step(action)
-                # TODO q-table actualisation 
                 delta = reward + self.discount_factor * np.max(self.q_table[next_state]) - self.q_table[state, action]
                 self.q_table[state, action] += self.learning_rate * delta
                 state = next_state
-    
+        # print(self.q_table)
+
     def terminal_visualization(self):
         self.env.reset()
         arrows = np.array(['↑', '→', '↓', '←'])
         rows, columns = self.env.unwrapped.shape
-        # print(self.env.unwrapped.shape)
         field = np.full((rows, columns), ' ')
         best_way = np.argmax(self.q_table, axis=1)
         ways = best_way.reshape((rows, columns))
@@ -59,10 +62,8 @@ class Q_training:
         qtable_best_action = np.argmax(qtable, axis=1).reshape(map_size)
         directions = {0: "↑", 1: "→", 2: "↓", 3: "←" }
         qtable_directions = np.empty(qtable_best_action.flatten().shape, dtype=str)
-        eps = np.finfo(float).eps  # Minimum float number on the machine
         for idx, val in enumerate(qtable_best_action.flatten()):
-            if qtable_val_max.flatten()[idx] > eps:
-                qtable_directions[idx] = directions[val]
+            qtable_directions[idx] = directions[val]
         qtable_directions = qtable_directions.reshape(map_size)
         return qtable_val_max, qtable_directions
     
@@ -70,11 +71,12 @@ class Q_training:
         """Plot the learned Q-values and the best actions on the grid."""
         map_size = self.env.unwrapped.shape
         qtable_val_max, qtable_directions = self.qtable_directions_map(self.q_table, map_size)
-
+        mask = qtable_val_max < 0
         # Plot the policy
         fig, ax = plt.subplots(figsize=(8, 6))
         sns.heatmap(
             qtable_val_max,
+            mask=~mask,
             annot=qtable_directions,
             fmt="",
             ax=ax,
@@ -87,9 +89,26 @@ class Q_training:
         ).set(title="Learned Q-values\nArrows represent best action")
         plt.show()
     
+    def plot_states_actions_distribution(self):
+        """Plot the distributions of states and actions."""
+        labels = {"LEFT": 3, "DOWN": 2, "RIGHT": 1, "UP": 0}
+        states = self.visited_states
+        actions = self.taken_actions
+        map_size = self.env.unwrapped.shape
+        # print(states)
+        fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(15, 5))
+        sns.histplot(data=states, ax=ax[0], kde=True)
+        ax[0].set_title("States Distribution")
+        sns.histplot(data=actions, ax=ax[1])
+        ax[1].set_xticks(list(labels.values()), labels=labels.keys())
+        ax[1].set_title("Actions Distribution")
+        fig.tight_layout()
+        plt.show()
+    
     def visualization(self):
         self.terminal_visualization()
         self.plot_q_values_map()
+        self.plot_states_actions_distribution()
         self.env.close()
 
 
@@ -97,29 +116,3 @@ if __name__ == "__main__":
     q_training = Q_training()
     q_training.train()
     q_training.visualization()
-
-
-# def plot_states_actions_distribution(states, actions, map_size):
-#     """Plot the distributions of states and actions."""
-#     labels = {"LEFT": 3, "DOWN": 2, "RIGHT": 1, "UP": 0}
-
-#     fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(15, 5))
-#     sns.histplot(data=states, ax=ax[0], kde=True)
-#     ax[0].set_title("States Distribution")
-#     sns.histplot(data=actions, ax=ax[1])
-#     ax[1].set_xticks(list(labels.values()), labels=labels.keys())
-#     ax[1].set_title("Actions Distribution")
-#     fig.tight_layout()
-#     plt.show()
-
-# # Setup environment and parameters
-# rewards = np.random.rand(len(episodes), 1)  # Placeholder for rewards
-# steps = np.random.randint(1, 100, size=(len(episodes), 1))  # Placeholder for steps
-# states = np.random.randint(0, env.observation_space.n, size=1000)  # Placeholder states
-# actions = np.random.randint(0, env.action_space.n, size=1000)  # Placeholder actions
-
-# # Visualize results
-# plot_states_actions_distribution(states, actions, map_size)
-# plot_q_values_map(q_table, env, map_size)
-
-# env.close()

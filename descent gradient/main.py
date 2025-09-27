@@ -66,7 +66,7 @@ def grad_descent(func, grad_func, start_point, learning_rate, max_steps,
 
 def main():
     if len(sys.argv) != 6:
-        print("Usage: python3 zad1.py index, learning_rate_f, max_steps_f, learning_rate_g, max_steps_g")
+        print("Usage: python3 main.py index, learning_rate_f, max_steps_f, learning_rate_g, max_steps_g")
         sys.exit(1)
 
     index = sys.argv[1]

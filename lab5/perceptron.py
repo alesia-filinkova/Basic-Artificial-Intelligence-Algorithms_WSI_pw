@@ -29,7 +29,7 @@ class Perceptron:
             self.activation_derivative = relu_derivative
         elif activation == "sigmoid":
             self.activation = sigmoid
-            self.activation_derivative == sigmoid_derivative
+            self.activation_derivative = sigmoid_derivative
         elif activation == "linear":
             self.activation = linear
             self.activation_derivative = linear_derivative
